@@ -1,4 +1,4 @@
-# cloudflare music
+# OTC 音乐网
 
 三端（网页/手机/平板）音乐播放器，带歌词锁屏展示、收藏/歌单/播放历史多端同步。
 整个项目就一个文件 `_worker.js`，没有构建步骤，Workers 和 Pages 共用同一份源码。
@@ -8,7 +8,7 @@
 ```
 .
 ├── _worker.js       # 全部源码（前端 HTML/CSS/JS + 后端 Worker 逻辑）
-├── wrangler.toml     # 仅用于「方式一：Workers CLI 部署」
+├── wrangler.toml     # 仅用于「方式一」里可选的 CLI 部署方式
 ├── package.json      # 本地跑 wrangler 命令用
 └── .gitignore
 ```
@@ -22,14 +22,29 @@
 
 ---
 
-## 方式一：Workers CLI 部署（推荐，最省心）
+## 方式一：Workers Dashboard 部署（最简单，复制代码即可）
+
+1. Cloudflare Dashboard → **Workers & Pages → 创建应用程序 → Workers → 创建 Worker**
+2. 起个名字（比如 `otc-music`），创建后进入在线编辑器
+3. 打开仓库里的 **[`_worker.js`](./_worker.js)**，全选复制里面的代码，粘贴进编辑器覆盖默认示例代码
+4. 点 **部署 (Deploy)**
+5. 部署完成后，进项目 → **设置 → 绑定 (Bindings) → 添加 KV 命名空间绑定**：
+   - 变量名称填 `MUSIC_KV`（代码里写死的名字，必须一致）
+   - 选择前面创建的 KV 命名空间
+6. 同一页面 **设置 → 变量 (Variables)** 可选加 `SITE_NAME` / `MUSIC_API_BASE`（不加则用默认值）
+7. 保存后自动生效
+
+以后改代码，重新打开在线编辑器复制粘贴新代码、点部署即可，不需要装 Node/wrangler。
+
+<details>
+<summary>也可以用 CLI 部署（本地改代码、用 Git 管理更方便）</summary>
 
 ```bash
 npm install
 npx wrangler login          # 首次使用需要授权
 ```
 
-打开 `wrangler.toml`，把 `id = "<替换为你的 KV 命名空间 ID>"` 换成上一步记下的 ID，然后：
+打开 `wrangler.toml`，把 `id = "<替换为你的 KV 命名空间 ID>"` 换成 KV 命名空间 ID，然后：
 
 ```bash
 npm run deploy
@@ -37,6 +52,8 @@ npm run deploy
 ```
 
 以后改完代码，重复 `npm run deploy` 即可。环境变量 `SITE_NAME` / `MUSIC_API_BASE` 已经写在 `wrangler.toml` 的 `[vars]` 里，改这个文件就行，不用去 Dashboard 点。
+
+</details>
 
 ## 方式二：Cloudflare Pages（Git 集成，push 自动部署）
 
