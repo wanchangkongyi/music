@@ -1,23 +1,13 @@
-# OTC 音乐网
+# cloudflare music
 
 三端（网页/手机/平板）音乐播放器，带歌词锁屏展示、收藏/歌单/播放历史多端同步。
-整个项目就一个文件 `_worker.js`，没有构建步骤，Workers 和 Pages 共用同一份源码。
 
-## 目录结构
-
-```
-.
-├── _worker.js       # 全部源码（前端 HTML/CSS/JS + 后端 Worker 逻辑）
-├── wrangler.toml     # 仅用于「方式一」里可选的 CLI 部署方式
-├── package.json      # 本地跑 wrangler 命令用
-└── .gitignore
-```
 
 ## 前置准备：创建 KV 命名空间
 
 收藏/歌单/历史同步、歌词缓存都依赖 KV 存储，三种部署方式都需要它。
 
-1. Cloudflare Dashboard → **存储和数据库 → KV** → 创建命名空间，比如叫 `otc-music-kv`
+1. Cloudflare Dashboard → **存储和数据库 → KV** → 创建命名空间，比如叫 `music-kv`
 2. 记下生成的 **命名空间 ID**，下面会用到
 
 ---
