@@ -1,0 +1,20 @@
+# 用于 `wrangler deploy`（纯 Cloudflare Workers 部署）
+# Pages 部署（Git 集成 / 直接上传）不读取这个文件，KV 绑定和环境变量
+# 需要在 Cloudflare Dashboard 的 Pages 项目 Settings 里单独配置，
+# 详见 README.md。
+
+name = "otc-music"
+main = "_worker.js"
+compatibility_date = "2026-07-12"
+
+# KV 命名空间绑定（用于收藏/歌单/历史多端同步 + 歌词缓存）
+# 先执行: npx wrangler kv namespace create MUSIC_KV
+# 把生成的 id 填到下面
+[[kv_namespaces]]
+binding = "MUSIC_KV"
+id = "<替换为你的 KV 命名空间 ID>"
+
+# 环境变量（可选，不填则使用代码里的默认值）
+[vars]
+SITE_NAME = "OTC 音乐网"
+MUSIC_API_BASE = "https://music.haitangw.cc"

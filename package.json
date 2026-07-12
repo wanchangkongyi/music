@@ -1,0 +1,15 @@
+{
+  "name": "otc-music",
+  "version": "1.0.0",
+  "private": true,
+  "description": "三端歌词锁屏展示音乐播放器 - Cloudflare Worker",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "pages:dev": "wrangler pages dev . --compatibility-date=2026-07-12",
+    "pages:deploy": "wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
