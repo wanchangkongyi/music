@@ -15,7 +15,7 @@
 ## 方式一：Workers Dashboard 部署（最简单，复制代码即可）
 
 1. Cloudflare Dashboard → **Workers & Pages → 创建应用程序 → Workers → 创建 Worker**
-2. 起个名字（比如 `otc-music`），创建后进入在线编辑器
+2. 起个名字（比如 `music`），创建后进入在线编辑器
 3. 打开仓库里的 **[`_worker.js`](./_worker.js)**，全选复制里面的代码，粘贴进编辑器覆盖默认示例代码
 4. 点 **部署 (Deploy)**
 5. 部署完成后，进项目 → **设置 → 绑定 (Bindings) → 添加 KV 命名空间绑定**：
@@ -24,7 +24,6 @@
 6. 同一页面 **设置 → 变量 (Variables)** 可选加 `SITE_NAME` / `MUSIC_API_BASE`（不加则用默认值）
 7. 保存后自动生效
 
-以后改代码，重新打开在线编辑器复制粘贴新代码、点部署即可，不需要装 Node/wrangler。
 
 <details>
 <summary>也可以用 CLI 部署（本地改代码、用 Git 管理更方便）</summary>
@@ -58,34 +57,13 @@ npm run deploy
 5. 同一页面下方 **环境变量** 可选加 `SITE_NAME` / `MUSIC_API_BASE`（不加则用默认值）
 6. 重新部署一次让绑定生效
 
-之后每次 `git push`，Pages 会自动重新部署。
-
-> 这里特意用 Dashboard 配置绑定、不用 `wrangler.toml`，是因为 Pages 的 Wrangler 配置字段（`pages_build_output_dir`）和 Workers 的（`main`）不是一套东西，硬塞一个文件容易两边都配不对；且一旦给 Pages 项目挂了 Wrangler 配置文件，Dashboard 里对应字段就会变成只读。分开管理最不容易踩坑。
-
-## 方式三：Cloudflare Pages（直接上传，不用 Git）
+## 方式三：Cloudflare Pages（直接上传）
 
 1. Dashboard → **Workers & Pages → 创建应用程序 → Pages → 上传资产**
 2. 把整个仓库文件夹（含 `_worker.js`）拖进去上传，部署
 3. 同「方式二」第 4-6 步，去 **设置 → 绑定** 加 KV 命名空间绑定 `MUSIC_KV`，重新部署
 
 以后要更新，重新拖一次文件夹上传即可（会生成新版本）。也可以用 CLI 代替手动拖拽：
-
-```bash
-npm run pages:deploy
-# 等价于: npx wrangler pages deploy .
-```
-
----
-
-## 本地开发调试
-
-```bash
-npm run dev          # 纯 Worker 模式
-# 或
-npm run pages:dev    # 模拟 Pages 环境
-```
-
-本地跑 KV 默认是本地模拟存储，不会影响线上数据。
 
 ## 环境变量说明
 
